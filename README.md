@@ -74,14 +74,6 @@ After installing the [Vulkan SDK](https://www.lunarg.com/vulkan-sdk/), please pr
 - [ ] Use Vulkan subgroups to batch Gaussian retrievals at the warp level
 - [ ] Training
 
-Please feel free to open an issue if you have any feature suggestions or are interested in contributing.
-
-## Contributing
-If you are interested in integrating your Gaussian Splatting variant, please open an issue or a pull request.
-3DGS.cpp's shaders follow the procedures outlined in the original paper, so it should be relatively
-easy to port your CUDA code. With cross-platform support, it's a great way to expand the reach and adoption of your research.
-If there are any questions, feel free to [send me an email](mailto:me@stevengao.net).
-
 ## License
 
 The main project is licensed under LGPL.
