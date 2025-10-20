@@ -1,5 +1,5 @@
 # 3dgs.cpp.ss
-This is a project based on [3dgs.cpp](https://github.com/shg8/3DGS.cpp/tree/main) for rendering 3dgs in vulkan with additional [Stochastic Splatting](https://github.com/ubc-vision/stochasticsplats) feature supported, which removes rendering from original rendering process, improving rendering speed in great extent.
+This is a project based on [3dgs.cpp](https://github.com/shg8/3DGS.cpp/tree/main) for rendering 3dgs in vulkan with additional [Stochastic Splatting](https://github.com/ubc-vision/stochasticsplats) feature supported, which is a sorting free rendering algorithm improving rendering speed in great extent.
 
 ## Command Line Viewer
 
