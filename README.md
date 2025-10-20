@@ -38,8 +38,8 @@ Alternatively, you can install the corresponding packages from your distro. For 
 are `vulkan-headers, vulkan-validationlayers, glslang-dev, libglfw3-dev, libglm-dev`.
 
 ```
-git clone https://github.com/shg8/3DGS.cpp/
-cd 3DGS.cpp
+git clone https://github.com/jycongCode/3dgs.cpp.ss
+cd 3dgs.cpp.ss
 mkdir build
 cmake -DCMAKE_BUILD_TYPE=Release -S ./ -B ./build
 cmake --build ./build -j4
