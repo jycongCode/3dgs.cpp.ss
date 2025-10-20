@@ -1,0 +1,36 @@
+#version 450
+#extension GL_GOOGLE_include_directive : enable
+#include "./common.glsl"
+
+#extension GL_EXT_shader_explicit_arithmetic_types_int64 : enable
+
+layout (std430, set = 0, binding = 0) readonly buffer PrefixBuffer {
+    uint prefixBuffer[];
+};
+
+layout (std430, set = 0, binding = 1) writeonly buffer Out {
+    uint boundaries[];
+};
+
+layout( push_constant ) uniform Constants
+{
+    uint width;
+    uint height;
+};
+
+layout (local_size_x = 256, local_size_y = 1, local_size_z = 1) in;
+
+void main() {
+    uint index = gl_GlobalInvocationID.x;
+    ivec2 tile_shape = ivec2((width + TILE_WIDTH - 1)/TILE_WIDTH,(height + TILE_HEIGHT - 1)/TILE_HEIGHT);
+    if (index >= tile_shape.x * tile_shape.y) {
+        return;
+    }
+    if(index == 0){
+        boundaries[0] = 0;
+        boundaries[1] = prefixBuffer[0];
+    }else{
+        boundaries[2 * index] = prefixBuffer[index-1];
+        boundaries[2 * index+1] = prefixBuffer[index];
+    }
+}

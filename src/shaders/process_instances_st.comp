@@ -1,0 +1,48 @@
+#version 450
+#extension GL_GOOGLE_include_directive : enable
+#include "./common.glsl"
+
+layout (std430, set = 0, binding = 0) readonly buffer VertexAttributes {
+    VertexAttribute attr[];
+};
+
+layout (std140, set = 0, binding = 1) uniform Params {
+    vec4 camera_position;
+    mat4 proj_mat;
+    mat4 view_mat;
+    uint width;
+    uint height;
+    float tan_fovx;
+    float tan_fovy;
+};
+
+layout (std430, set = 0, binding = 2) readonly buffer Prefix{
+    uint prefixBuffer[];
+};
+
+layout (std430, set = 1, binding = 0) writeonly buffer InstanceIndexBuffer {
+    uint instanceIndex[];
+};
+
+layout(std430, set = 1, binding = 1) buffer InstanceCounterBuffer{
+    uint instanceCounter[];
+};
+
+void main(){
+    uint index = gl_GlobalInvocationID.x;
+    ivec2 tile_shape = ivec2((width + TILE_WIDTH - 1)/TILE_WIDTH,(height + TILE_HEIGHT - 1)/TILE_HEIGHT);
+    
+    if(index >= attr.length()){
+        return;
+    }
+
+    uvec4 bounding_box = attr[index].aabb;
+    for(uint i = bounding_box.x;i<=bounding_box.z;i++){
+        for(uint j = bounding_box.y;j<=bounding_box.w;j++){
+            uint tile_index = i + tile_shape.x * j;
+            uint offset = tile_index <= 0 ? 0 : prefixBuffer[tile_index-1];
+            uint sp_index = atomicAdd(instanceCounter[tile_index],1);
+            instanceIndex[offset + sp_index] = index;
+        }
+    }
+}
